@@ -314,7 +314,7 @@ let nestDiagram = true
 if nestDiagram {
     sample.add(Scaled(scale: 0.3, subject: sample))
     // do it twice if you want to get fancy
-    // sample.add(Scaled(scale: 0.5, subject: sample))
+//     sample.add(Scaled(scale: 0.5, subject: sample))
 }
 
 // Also add a Bubble
