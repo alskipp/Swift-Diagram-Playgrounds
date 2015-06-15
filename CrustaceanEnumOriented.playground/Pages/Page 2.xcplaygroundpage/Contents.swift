@@ -8,7 +8,7 @@ class Box<T> {
   let unbox: T
   init(_ value: T) { self.unbox = value }
 }
-//: Now a `Diagram`, which is an enum containing `Shape`s and `Diagram`s
+//: A `Diagram` as a recursive enum
 enum Diagram {
   case Polygon(corners: [CGPoint])
   case Circle(center: CGPoint, radius: CGFloat)
