@@ -46,6 +46,12 @@ func == (lhs: Diagram, rhs: Diagram) -> Bool {
     
   case let (.Rectangle(lBounds), .Rectangle(rBounds)):
     return lBounds == rBounds
+  
+  case let (.Scale(lx, ly, lDiagram), .Scale(rx, ry, rDiagram)):
+    return lx == rx && ly == ry && lDiagram.unbox == rDiagram.unbox
+
+  case let (.Translate(lx, ly, lDiagram), .Translate(rx, ry, rDiagram)):
+    return lx == rx && ly == ry && lDiagram.unbox == rDiagram.unbox
     
   case let (.Diagrams(lDiagrams), .Diagrams(rDiagrams)):
     let (l, r) = (lDiagrams.unbox, rDiagrams.unbox)
