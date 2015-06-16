@@ -104,7 +104,7 @@ func drawDiagram(diagram: Diagram)(context: CGContext) -> () {
     for p in corners { context.lineTo(p) }
     
   case let .Circle(center, radius):
-    context.arcAt(center, radius: radius, startAngle: 0.0, endAngle: twoPi)
+    context.circleAt(center, radius: radius)
 
   case let .Rectangle(bounds):
     context.rectangleAt(bounds)
