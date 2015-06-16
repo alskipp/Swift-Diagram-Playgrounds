@@ -123,7 +123,7 @@ func drawDiagram(diagram: Diagram)(context: CGContext) -> () {
     }
     
   case let .Diagrams(diagrams):
-    for d in diagrams.unbox { drawDiagram(d)(context: context) }
+    diagrams.unbox.map { d in drawDiagram(d)(context: context) }
   }
 }
 //: Infix operator for combining Diagrams
