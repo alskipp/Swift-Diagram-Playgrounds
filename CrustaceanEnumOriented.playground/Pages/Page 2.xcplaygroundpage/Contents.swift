@@ -70,6 +70,10 @@ extension CGContext {
   func lineTo(position: CGPoint) {
     CGContextAddLineToPoint(self, position.x, position.y)
   }
+  func drawPath(points: [CGPoint]) {
+    points.last.map(moveTo)
+    points.map(lineTo)
+  }
   func arcAt(center: CGPoint, radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat) {
     let arc = CGPathCreateMutable()
     CGPathAddArc(arc, nil, center.x, center.y, radius, startAngle, endAngle, true)
@@ -100,8 +104,7 @@ extension CGContext {
 func drawDiagram(diagram: Diagram)(context: CGContext) -> () {
   switch diagram {
   case let .Polygon(corners):
-    context.moveTo(corners.last!)
-    for p in corners { context.lineTo(p) }
+    context.drawPath(corners)
     
   case let .Circle(center, radius):
     context.circleAt(center, radius: radius)
