@@ -38,4 +38,4 @@ The two approaches are a good demonstration of the [expression problem](https://
 
 The use of a `Renderer` protocol makes it much easier to add a `TestRenderer` to log drawing. But using the `Renderer` protocol to add diagram transformation functionality is potentially very cumbersome. It is easy to add a `ScaledRenderer` type, but it would be more complicated to add a `TranslateRenderer`, or a `RotateRenderer` and duplicates functionality that is already provided by `CGContext`. The enum approach doesn't attempt to provide the logic for `Diagram` transformation, it simply stores the information needed and uses `CGContext` functions to do the hard work.
 
-Which approach is better? I dunno ¯\_(ツ)_/¯
+Which approach is better? I dunno ¯\\\_(ツ)_/¯
