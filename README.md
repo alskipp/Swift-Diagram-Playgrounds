@@ -31,3 +31,11 @@ Recursive enums still require the use of `Box` in Swift 2.0, but Apple have indi
 * * *
 **Note:** Playgrounds require Swift 2.0 (Xcode 7)
 * * *
+
+### Protocol-Oriented or Enum-Oriented – which is best?
+
+The two approaches are a good demonstration of the [expression problem](https://en.wikipedia.org/wiki/Expression_problem). Which approach is easier to extend? Using a protocol-oriented technique allows you to add new types without too much hassle. In Apple’s example code a `Bubble` struct is added by implementing the `Drawable` protocol and `Equatable` (no pre-existing code needs to be adjusted). If a `Bubble` case were added to the `enum` version it would necessitate the altering of pre-existing functions (`Equatable` for `Diagram` and the `drawDiagram` function) this is more hassle and more error prone. However, we don't need to add a new case to the enum to draw `Bubble`s, we can simply add a function that constructs a bubble and returns a `Diagram`, in that case no code needs to be altered.
+
+The use of a `Renderer` protocol makes it much easier to add a `TestRenderer` to log drawing. But using the `Renderer` protocol to add diagram transformation functionality is potentially very cumbersome. It is easy to add a `ScaledRenderer` type, but it would be more complicated to add a `TranslateRenderer`, or a `RotateRenderer` and duplicates functionality that is already provided by `CGContext`. The enum approach doesn't attempt to provide the logic for `Diagram` transformation, it simply stores the information needed and uses `CGContext` functions to do the hard work.
+
+Which approach is better? I dunno ¯\_(ツ)_/¯
