@@ -1,7 +1,7 @@
 Swift-Diagram-Playgrounds
 ========
 
-This is a an adaption of Apple’s sample code for the [Protocol-Oriented Programming in Swift](https://developer.apple.com/videos/wwdc/2015/?id=408) talk given during WWDC 2015.
+This is an adaption of Apple’s sample code for the [Protocol-Oriented Programming in Swift](https://developer.apple.com/videos/wwdc/2015/?id=408) talk given during WWDC 2015.
 
 Included is Apple’s original example playground file `Crustacean.playground` that uses a `Protocol-oriented` design. In addition there's an alternative version `CrustaceanEnumOriented.playground` that uses a recursive enum as the data structure.
 
