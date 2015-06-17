@@ -1,3 +1,5 @@
+//: Take a look in the `Sources` folder to see the implementation of **Diagram** and the **CGContext** extension.
+
 import CoreGraphics
 
 let starPoints = [(0, 50), (10, 20), (40, 20), (20,  0),
@@ -20,4 +22,4 @@ let diagram = concentric + .scale(x: 0.15, y: 0.15, concentric)
 
 showCoreGraphicsDiagram("Diagram", size: CGSize(width: 600, height: 500)) {
   drawDiagram(diagram)(context: $0)
-}
+}//: To see the result, View>Assistant Editor>Show Assistant Editor (opt-cmd-Return).
