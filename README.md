@@ -5,7 +5,7 @@ This is a an adaption of Apple’s sample code for the [Protocol-Oriented Progra
 
 Included is Apple’s original example playground file `Crustacean.playground` that uses a `Protocol-oriented` design. In addition there's an alternative version `CrustaceanEnumOriented.playground` that uses a recursive enum as the data structure.
 
-Finally there's the `Diagrams.playground` which adds a more functionality which you can experiment with.
+Finally there's the `Diagrams.playground` which adds a bit more functionality which you can experiment with.
 
 The playgrounds demonstrate two different approaches to creating `Diagram`s as value types and show how to draw them into a CGContext.
 
