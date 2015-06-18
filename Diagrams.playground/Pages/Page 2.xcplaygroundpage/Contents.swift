@@ -1,5 +1,7 @@
 /*: 
 [**<- Previous**](@previous)
+
+## I want to be a tree
 */
 import CoreGraphics
 
@@ -37,4 +39,8 @@ To see the result, View>Assistant Editor>Show Assistant Editor (opt-cmd-Return).
 * * *
 
 Inspired by the *tree* example in the Haskell library [**Gloss**](https://github.com/benl23x5/gloss)
+
+* * *
+
+With a few tweeks we can create a different looking tree: [**Next ->**](@next)
 */
