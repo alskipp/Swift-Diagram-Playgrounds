@@ -23,4 +23,10 @@ let diagram = concentric + .scale(x: 0.15, y: 0.15, concentric)
 showCoreGraphicsDiagram("Diagram", size: CGSize(width: 600, height: 500)) {
   drawDiagram(diagram)(context: $0)
 }
-//: To see the result, View>Assistant Editor>Show Assistant Editor (opt-cmd-Return).
+/*:
+To see the result, View>Assistant Editor>Show Assistant Editor (opt-cmd-Return).
+
+* * *
+
+[**Next ->**](@next)
+*/
