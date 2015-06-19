@@ -19,8 +19,8 @@ let star = polygon(
    (-30, -30), (-20, 0), (-40, 20), (-10, 20), (0, 50)]
 )
 
-let starRing = ring(radius: 185, number: 12, star)
-let diagram = iterateScale(0.67, iterate: 6, starRing)
+let starRing = ring(radius: 185, number: 16, star)
+let diagram = iterateScale(0.74, iterate: 6, starRing)
 
 showCoreGraphicsDiagram("Diagram", size: CGSize(width: 600, height: 500)) {
   drawDiagram(diagram)(context: $0)

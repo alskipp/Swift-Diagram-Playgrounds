@@ -18,8 +18,8 @@ func iterateScale(s: CGFloat, offset: Point = (0,0), iterate: Int, _ diagram: Di
 
 let triangle = polygon( [(0, -25), (25, 0), (-25, 0)])
 
-let triangleRing = ring(radius: 220, number: 24, triangle)
-let diagram = iterateScale(0.67, offset: (15, 30), iterate: 8, triangleRing)
+let triangleRing = ring(radius: 220, number: 27, triangle)
+let diagram = iterateScale(0.618, offset: (15, 30), iterate: 8, triangleRing)
 
 showCoreGraphicsDiagram("Diagram", size: CGSize(width: 600, height: 500)) {
   drawDiagram(diagram)(context: $0)
