@@ -9,9 +9,9 @@ func ring(radius radius: CGFloat, number: Int, _ diagram: Diagram) -> Diagram {
   })
 }
 
-func insetScale(s: CGFloat, iterate: Int, _ diagram: Diagram) -> Diagram {
+func iterateScale(s: CGFloat, iterate: Int, _ diagram: Diagram) -> Diagram {
   if iterate == 0 { return diagram }
-  return insetScale(s, iterate: iterate - 1, diagram + scale(x: s, y: s, diagram))
+  return iterateScale(s, iterate: iterate - 1, diagram + scale(x: s, y: s, diagram))
 }
 
 let star = polygon(
@@ -20,7 +20,7 @@ let star = polygon(
 )
 
 let starRing = ring(radius: 185, number: 12, star)
-let diagram = insetScale(0.67, iterate: 6, starRing)
+let diagram = iterateScale(0.67, iterate: 6, starRing)
 
 showCoreGraphicsDiagram("Diagram", size: CGSize(width: 600, height: 500)) {
   drawDiagram(diagram)(context: $0)
