@@ -28,7 +28,7 @@ func tree(n: Int) -> Diagram {
     ])
 }
 
-let growTree = { translate(x: 0, y: -260, tree(4)) }
+let growTree = { translate(x: 0, y: -260, tree(5)) }
 
 displayDiagram(growTree())
 /*:
