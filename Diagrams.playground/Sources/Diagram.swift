@@ -2,6 +2,8 @@ import CoreGraphics
 let twoPi = CGFloat(M_PI * 2)
 let toDegrees: CGFloat -> CGFloat = { CGFloat(M_PI / 180) * $0 }
 
+public typealias Point = (Double, Double)
+
 //: Currently required for recursive enums, but will be fixed soon!
 public class Box<T> {
   public let unbox: T
@@ -17,27 +19,37 @@ public enum Diagram {
   case Translate(x: CGFloat, y: CGFloat, diagram: Box<Diagram>)
   case Rotate(angle: CGFloat, diagram: Box<Diagram>)
   case Diagrams(diagrams: Box<[Diagram]>)
-  
-  // convenience functions to handle boxing of `Diagram`s
-  public static func diagrams(diagrams: [Diagram]) -> Diagram {
-    return .Diagrams(diagrams: Box(diagrams))
-  }
-  
-  public static func diagram(diagram: Diagram) -> Diagram {
-    return .Diagrams(diagrams: Box([diagram]))
-  }
-  
-  public static func scale(x x: CGFloat, y: CGFloat, _ diagram: Diagram) -> Diagram {
-    return .Scale(x: x, y: y, diagram: Box(diagram))
-  }
-  
-  public static func translate(x x: CGFloat, y: CGFloat, _ diagram: Diagram) -> Diagram {
-    return .Translate(x: x, y: y, diagram: Box(diagram))
-  }
-  
-  public static func rotate(angle x: CGFloat, _ diagram: Diagram) -> Diagram {
-    return .Rotate(angle: x, diagram: Box(diagram))
-  }
+}
+
+// convenience functions to handle conversion from `Point` to `CGPoint`
+// (defining an Array of `CGpoint`s is really verbose – hence the use of the `tuple` typealias `Point`)
+public func line(ps: [Point]) -> Diagram {
+  return .Line(points: ps.map { x, y in CGPoint(x: x, y: y) })
+}
+
+public func polygon(ps: [Point]) -> Diagram {
+  return .Polygon(corners: ps.map { x, y in CGPoint(x: x, y: y) })
+}
+
+// convenience functions to handle boxing of `Diagram`s
+public func diagrams(diagrams: [Diagram]) -> Diagram {
+  return .Diagrams(diagrams: Box(diagrams))
+}
+
+public func diagram(diagram: Diagram) -> Diagram {
+  return .Diagrams(diagrams: Box([diagram]))
+}
+
+public func scale(x x: CGFloat, y: CGFloat, _ diagram: Diagram) -> Diagram {
+  return .Scale(x: x, y: y, diagram: Box(diagram))
+}
+
+public func translate(x x: CGFloat, y: CGFloat, _ diagram: Diagram) -> Diagram {
+  return .Translate(x: x, y: y, diagram: Box(diagram))
+}
+
+public func rotate(angle x: CGFloat, _ diagram: Diagram) -> Diagram {
+  return .Rotate(angle: x, diagram: Box(diagram))
 }
 
 extension Diagram: Equatable { }
@@ -74,7 +86,7 @@ public func == (lhs: Diagram, rhs: Diagram) -> Bool {
 
 //: Infix operator for combining Diagrams
 public func +(d1:Diagram, d2:Diagram) -> Diagram {
-  return .diagrams([d1, d2])
+  return diagrams([d1, d2])
 }
 
 //: ## Do some drawing!

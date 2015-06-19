@@ -11,26 +11,22 @@ func displayDiagram(diagram: Diagram) {
   }
 }
 
-let stump = {
-   Diagram.Polygon(corners: [(30,0), (10,300), (-10,300), (-30,0)].map { x, y in
-    CGPoint(x: x, y: y) }
-  )
-}
+let stump = polygon([(30, 0), (10, 300), (-10, 300), (-30, 0)])
 
 func tree(n: Int) -> Diagram {
-  if n == 0 { return stump() }
+  if n == 0 { return stump }
   
-  let smallTree: Diagram = .scale(x: 0.6, y: 0.67, tree(n - 1))
+  let smallTree = scale(x: 0.6, y: 0.67, tree(n - 1))
 
-  return .diagrams([
-    stump(),
-    .translate(x: 0, y: 190, smallTree),
-    .translate(x: 0, y: 200, .rotate(angle: 35, smallTree)),
-    .translate(x: 0, y: 180, .rotate(angle: -35, smallTree)),
+  return diagrams([
+    stump,
+    translate(x: 0, y: 190, smallTree),
+    translate(x: 0, y: 200, rotate(angle: 35, smallTree)),
+    translate(x: 0, y: 180, rotate(angle: -35, smallTree)),
     ])
 }
 
-let growTree = { Diagram.translate(x: 0, y: -260, tree(5)) }
+let growTree = { translate(x: 0, y: -260, tree(5)) }
 
 displayDiagram(growTree())
 /*:

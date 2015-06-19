@@ -11,28 +11,24 @@ func displayDiagram(diagram: Diagram) {
   }
 }
 
-let stump = {
-  Diagram.Polygon(corners: [(30,0), (10,300), (-10,300), (-30,0)].map { x, y in
-    CGPoint(x: x, y: y) }
-  )
-}
+let stump = polygon([(30, 0), (10, 300), (-10, 300), (-30, 0)])
 
 func tree(n: Int) -> Diagram {
-  if n == 0 { return stump() }
+  if n == 0 { return stump }
   
-  let smallTree: Diagram = .scale(x: 0.33, y: 0.45, tree(n - 1))
+  let smallTree = scale(x: 0.33, y: 0.45, tree(n - 1))
   
-  return .diagrams([
-    stump(),
-    .translate(x: 0, y: 300, smallTree),
-    .translate(x: -8, y: 250, .rotate(angle: 45, smallTree)),
-    .translate(x: 12, y: 200, .rotate(angle: -45, smallTree)),
-    .translate(x: -18, y: 150, .rotate(angle: 70, smallTree)),
-    .translate(x: 22, y: 100, .rotate(angle: -70, smallTree)),
+  return diagrams([
+    stump,
+    translate(x: 0, y: 300, smallTree),
+    translate(x: -8, y: 250, rotate(angle: 45, smallTree)),
+    translate(x: 12, y: 200, rotate(angle: -45, smallTree)),
+    translate(x: -18, y: 150, rotate(angle: 70, smallTree)),
+    translate(x: 22, y: 100, rotate(angle: -70, smallTree)),
     ])
 }
 
-let growTree = { Diagram.translate(x: 0, y: -260, tree(4)) }
+let growTree = { translate(x: 0, y: -260, tree(4)) }
 
 displayDiagram(growTree())
 /*:
