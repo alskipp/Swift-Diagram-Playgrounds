@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <playground version='6.0' target-platform='ios' auto-termination-delay='10' requires-full-environment='true' display-mode='rendered'>
     <pages>
-        <page name='Page 1'/>
-        <page name='Page 2'/>
-        <page name='Page 3'/>
+        <page name='StarRing'/>
+        <page name='OffsetTriangleRing'/>
+        <page name='Tree'/>
+        <page name='Tree - The Larch'/>
     </pages>
 </playground>
