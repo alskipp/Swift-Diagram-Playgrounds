@@ -1,9 +1,9 @@
 import CoreGraphics
 let twoPi = CGFloat(M_PI * 2)
-let toDegrees: CGFloat -> CGFloat = { CGFloat(M_PI / 180) * $0 }
+let toRadians = { $0 * CGFloat(M_PI / 180) }
 
-public typealias Point = (x: Double, y: Double)
-public typealias Size = (width: Double, height: Double)
+public typealias Point = (x: CGFloat, y: CGFloat)
+public typealias Size = (width: CGFloat, height: CGFloat)
 
 //: Currently required for recursive enums, but will be fixed soon!
 public class Box<T> {
@@ -14,7 +14,8 @@ public class Box<T> {
 public enum Diagram {
   case Polygon(corners: [CGPoint])
   case Line(points: [CGPoint])
-  case Circle(center: CGPoint, radius: CGFloat)
+  case Arc(radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat)
+  case Circle(radius: CGFloat)
   case Scale(x: CGFloat, y: CGFloat, diagram: Box<Diagram>)
   case Translate(x: CGFloat, y: CGFloat, diagram: Box<Diagram>)
   case Rotate(angle: CGFloat, diagram: Box<Diagram>)
@@ -31,7 +32,7 @@ public func polygon(ps: [Point]) -> Diagram {
   return .Polygon(corners: ps.map { x, y in CGPoint(x: x, y: y) })
 }
 
-public func rectanglePath(width: Double, _ height: Double) -> [Point] {
+public func rectanglePath(width: CGFloat, _ height: CGFloat) -> [Point] {
   let sx = width / 2
   let sy = height / 2
   return [(-sx, -sy), (-sx, sy), (sx, sy), (sx, -sy)]
@@ -73,9 +74,12 @@ public func == (lhs: Diagram, rhs: Diagram) -> Bool {
     
   case let (.Line(l), .Line(r)):
     return l.count == r.count && !zip(l, r).contains { $0 != $1 }
+
+  case let (.Arc(lRadius, la1, la2), .Arc(rRadius, ra1, ra2)):
+    return lRadius == rRadius && la1 == ra1 && la2 == ra2
     
-  case let (.Circle(lCenter, lRadius), .Circle(rCenter, rRadius)):
-    return lCenter == rCenter && lRadius == rRadius
+  case let (.Circle(lRadius), .Circle(rRadius)):
+    return lRadius == rRadius
     
   case let (.Scale(lx, ly, lDiagram), .Scale(rx, ry, rDiagram)):
     return lx == rx && ly == ry && lDiagram.unbox == rDiagram.unbox
@@ -109,9 +113,12 @@ public func drawDiagram(diagram: Diagram)(context: CGContext) -> () {
     
   case let .Line(points):
     context.drawPath(points)
+ 
+  case let .Arc(r, a1, a2):
+    context.arc(r, startAngle: toRadians(a1), endAngle: toRadians(a2))
     
-  case let .Circle(center, radius):
-    context.circleAt(center, radius: radius)
+  case let .Circle(radius):
+    context.circle(radius)
     
   case let .Scale(x, y, diagram):
     context.scale(x, y) {
@@ -124,7 +131,7 @@ public func drawDiagram(diagram: Diagram)(context: CGContext) -> () {
     }
     
   case let .Rotate(angle, diagram):
-    context.rotate(toDegrees(angle)) {
+    context.rotate(toRadians(angle)) {
       drawDiagram(diagram.unbox)(context: $0)
     }
     

@@ -15,13 +15,13 @@ public extension CGContext {
     points.last.map(moveTo)
     points.map(lineTo)
   }
-  func arcAt(center: CGPoint, radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat) {
+  func arc(radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat) {
     let arc = CGPathCreateMutable()
-    CGPathAddArc(arc, nil, center.x, center.y, radius, startAngle, endAngle, true)
+    CGPathAddArc(arc, nil, 0, 0, radius, startAngle, endAngle, false)
     CGContextAddPath(self, arc)
   }
-  func circleAt(center: CGPoint, radius: CGFloat) {
-    arcAt(center, radius: radius, startAngle: 0.0, endAngle: twoPi)
+  func circle(radius: CGFloat) {
+    arc(radius, startAngle: 0.0, endAngle: twoPi)
   }
   func saveContext(operation: () -> ()) {
     CGContextSaveGState(self)
