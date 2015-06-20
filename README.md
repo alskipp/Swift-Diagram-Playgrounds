@@ -18,7 +18,6 @@ enum Diagram {
   case Polygon(corners: [CGPoint])
   case Line(points: [CGPoint])
   case Circle(center: CGPoint, radius: CGFloat)
-  case Rectangle(bounds: CGRect)
   case Scale(x: CGFloat, y: CGFloat, diagram: Box<Diagram>)
   case Translate(x: CGFloat, y: CGFloat, diagram: Box<Diagram>)
   case Rotate(angle: CGFloat, diagram: Box<Diagram>)
