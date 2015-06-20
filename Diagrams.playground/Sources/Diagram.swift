@@ -49,6 +49,10 @@ public func diagram(diagram: Diagram) -> Diagram {
   return .Diagrams(diagrams: Box([diagram]))
 }
 
+public func scale(s: CGFloat, _ diagram: Diagram) -> Diagram {
+  return .Scale(x: s, y: s, diagram: Box(diagram))
+}
+
 public func scale(x x: CGFloat, y: CGFloat, _ diagram: Diagram) -> Diagram {
   return .Scale(x: x, y: y, diagram: Box(diagram))
 }

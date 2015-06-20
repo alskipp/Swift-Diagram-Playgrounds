@@ -11,7 +11,7 @@ func ring(radius radius: CGFloat, number: Int, _ diagram: Diagram) -> Diagram {
 
 func iterateScale(s: CGFloat, iterate: Int, _ diagram: Diagram) -> Diagram {
   if iterate == 0 { return diagram }
-  return iterateScale(s, iterate: iterate - 1, diagram + scale(x: s, y: s, diagram))
+  return iterateScale(s, iterate: iterate - 1, diagram + scale(s, diagram))
 }
 
 let star = polygon(

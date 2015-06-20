@@ -13,7 +13,7 @@ func ring(radius radius: CGFloat, number: Int, _ diagram: Diagram) -> Diagram {
 func iterateScale(s: CGFloat, offset: Point = (0,0), iterate: Int, _ diagram: Diagram) -> Diagram {
   if iterate == 0 { return diagram }
   return iterateScale(s, offset: offset, iterate: iterate - 1,
-    diagram + translate(x: CGFloat(offset.0), y: CGFloat(offset.1), scale(x: s, y: s, diagram)))
+    diagram + translate(x: CGFloat(offset.0), y: CGFloat(offset.1), scale(s, diagram)))
 }
 
 let triangle = polygon([(0, -50), (25, 0), (-25, 0)])
