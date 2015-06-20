@@ -2,7 +2,8 @@ import CoreGraphics
 let twoPi = CGFloat(M_PI * 2)
 let toDegrees: CGFloat -> CGFloat = { CGFloat(M_PI / 180) * $0 }
 
-public typealias Point = (Double, Double)
+public typealias Point = (x: Double, y: Double)
+public typealias Size = (width: Double, height: Double)
 
 //: Currently required for recursive enums, but will be fixed soon!
 public class Box<T> {
@@ -14,7 +15,6 @@ public enum Diagram {
   case Polygon(corners: [CGPoint])
   case Line(points: [CGPoint])
   case Circle(center: CGPoint, radius: CGFloat)
-  case Rectangle(bounds: CGRect)
   case Scale(x: CGFloat, y: CGFloat, diagram: Box<Diagram>)
   case Translate(x: CGFloat, y: CGFloat, diagram: Box<Diagram>)
   case Rotate(angle: CGFloat, diagram: Box<Diagram>)
@@ -31,6 +31,15 @@ public func polygon(ps: [Point]) -> Diagram {
   return .Polygon(corners: ps.map { x, y in CGPoint(x: x, y: y) })
 }
 
+public func rectanglePath(width: Double, _ height: Double) -> [Point] {
+  let sx = width / 2
+  let sy = height / 2
+  return [(-sx, -sy), (-sx, sy), (sx, sy), (sx, -sy)]
+}
+
+public func rectangle(size: Size) -> Diagram {
+  return polygon(rectanglePath(size.0, size.1))
+}
 // convenience functions to handle boxing of `Diagram`s
 public func diagrams(diagrams: [Diagram]) -> Diagram {
   return .Diagrams(diagrams: Box(diagrams))
@@ -63,9 +72,6 @@ public func == (lhs: Diagram, rhs: Diagram) -> Bool {
     
   case let (.Circle(lCenter, lRadius), .Circle(rCenter, rRadius)):
     return lCenter == rCenter && lRadius == rRadius
-    
-  case let (.Rectangle(lBounds), .Rectangle(rBounds)):
-    return lBounds == rBounds
     
   case let (.Scale(lx, ly, lDiagram), .Scale(rx, ry, rDiagram)):
     return lx == rx && ly == ry && lDiagram.unbox == rDiagram.unbox
@@ -102,9 +108,6 @@ public func drawDiagram(diagram: Diagram)(context: CGContext) -> () {
     
   case let .Circle(center, radius):
     context.circleAt(center, radius: radius)
-    
-  case let .Rectangle(bounds):
-    context.rectangleAt(bounds)
     
   case let .Scale(x, y, diagram):
     context.scale(x, y) {

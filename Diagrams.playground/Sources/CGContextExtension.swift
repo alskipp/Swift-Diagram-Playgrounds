@@ -23,9 +23,6 @@ public extension CGContext {
   func circleAt(center: CGPoint, radius: CGFloat) {
     arcAt(center, radius: radius, startAngle: 0.0, endAngle: twoPi)
   }
-  func rectangleAt(r: CGRect) {
-    CGContextAddRect(self, r)
-  }
   func saveContext(operation: () -> ()) {
     CGContextSaveGState(self)
     operation()
