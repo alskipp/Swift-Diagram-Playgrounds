@@ -5,7 +5,7 @@ import CoreGraphics
 func ring(radius radius: CGFloat, number: Int, _ diagram: Diagram) -> Diagram {
   let angles = stride(from: 0.0, to: 360.0, by: 360.0/Double(number))
   return diagrams(angles.map {
-    rotate(angle: CGFloat($0), translate(x: 0, y: radius, diagram))
+    rotate(CGFloat($0), translate(x: 0, y: radius, diagram))
   })
 }
 

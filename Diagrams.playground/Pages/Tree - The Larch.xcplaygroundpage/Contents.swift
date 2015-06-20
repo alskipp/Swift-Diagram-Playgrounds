@@ -21,10 +21,10 @@ func tree(n: Int) -> Diagram {
   return diagrams([
     stump,
     translate(x: 0, y: 300, smallTree),
-    translate(x: -8, y: 250, rotate(angle: 45, smallTree)),
-    translate(x: 12, y: 200, rotate(angle: -45, smallTree)),
-    translate(x: -18, y: 150, rotate(angle: 70, smallTree)),
-    translate(x: 22, y: 100, rotate(angle: -70, smallTree)),
+    translate(x: -8, y: 250, rotate(45, smallTree)),
+    translate(x: 12, y: 200, rotate(-45, smallTree)),
+    translate(x: -18, y: 150, rotate(70, smallTree)),
+    translate(x: 22, y: 100, rotate(-70, smallTree)),
     ])
 }
 

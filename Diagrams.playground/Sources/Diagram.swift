@@ -62,7 +62,7 @@ public func translate(x x: CGFloat, y: CGFloat, _ diagram: Diagram) -> Diagram {
   return .Translate(x: x, y: y, diagram: Box(diagram))
 }
 
-public func rotate(angle x: CGFloat, _ diagram: Diagram) -> Diagram {
+public func rotate(x: CGFloat, _ diagram: Diagram) -> Diagram {
   return .Rotate(angle: x, diagram: Box(diagram))
 }
 
