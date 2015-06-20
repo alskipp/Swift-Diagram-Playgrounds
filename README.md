@@ -17,7 +17,8 @@ Apple’s version uses a variety of structs that conform to the `Drawable` proto
 enum Diagram {
   case Polygon(corners: [CGPoint])
   case Line(points: [CGPoint])
-  case Circle(center: CGPoint, radius: CGFloat)
+  case Arc(radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat)
+  case Circle(radius: CGFloat)
   case Scale(x: CGFloat, y: CGFloat, diagram: Box<Diagram>)
   case Translate(x: CGFloat, y: CGFloat, diagram: Box<Diagram>)
   case Rotate(angle: CGFloat, diagram: Box<Diagram>)
