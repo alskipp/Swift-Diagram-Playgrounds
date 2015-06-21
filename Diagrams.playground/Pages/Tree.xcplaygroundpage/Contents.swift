@@ -11,24 +11,25 @@ func displayDiagram(diagram: Diagram) {
   }
 }
 
-let stump = polygon([(30, 0), (10, 300), (-10, 300), (-30, 0)])
-
-func tree(n: Int) -> Diagram {
-  if n == 0 { return stump }
-  
-  let smallTree = scale(x: 0.6, y: 0.67, tree(n - 1))
-
-  return diagrams([
-    stump,
-    translate(x: 0, y: 190, smallTree),
-    translate(x: 0, y: 200, rotate(35, smallTree)),
-    translate(x: 0, y: 180, rotate(-35, smallTree)),
-    ])
+extension Diagram {
+  func tree(n: Int) -> Diagram {
+    if n == 0 { return self }
+    
+    let smallTree = tree(n - 1).scale(x: 0.6, y: 0.67)
+    
+    return diagrams([
+      stump,
+      smallTree.translate(x: 0, y: 190),
+      smallTree.rotate(35).translate(x: 0, y: 200),
+      smallTree.rotate(-35).translate(x: 0, y: 180)
+      ])
+  }
 }
 
-let growTree = { translate(x: 0, y: -260, tree(5)) }
+let stump = polygon([(30, 0), (10, 300), (-10, 300), (-30, 0)])
+let aTree = stump.tree(5).translate(x: 0, y: -260)
 
-displayDiagram(growTree())
+displayDiagram(aTree)
 /*:
 To see the result, View>Assistant Editor>Show Assistant Editor (opt-cmd-Return).
 

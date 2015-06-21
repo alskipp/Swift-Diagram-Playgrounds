@@ -3,23 +3,27 @@
 */
 import CoreGraphics
 
-func ring(radius radius: CGFloat, number: Int, _ diagram: Diagram) -> Diagram {
-  let angles = stride(from: 0.0, to: 360.0, by: 360.0/Double(number))
-  return diagrams(angles.map {
-    rotate(CGFloat($0), translate(x: 0, y: radius, diagram))
-    })
-}
-
-func iterateScale(s: CGFloat, offset: Point = (0,0), iterate: Int, _ diagram: Diagram) -> Diagram {
-  if iterate == 0 { return diagram }
-  return iterateScale(s, offset: offset, iterate: iterate - 1,
-    diagram + translate(x: CGFloat(offset.x), y: CGFloat(offset.y), scale(s, diagram)))
+extension Diagram {
+  func ring(radius radius: CGFloat, number: Int) -> Diagram {
+    let angles = stride(from: 0.0, to: 360.0, by: 360.0/Double(number))
+    return diagrams(angles.map {
+      self.translate(x: 0, y: radius).rotate(CGFloat($0))
+      }
+    )
+  }
+  
+  func iterateScale(s: CGFloat, offset: Point = (0,0), iterate: Int) -> Diagram {
+    if iterate == 0 { return self }
+    return self + scale(s)
+      .translate(x: offset.x, y: offset.y)
+      .iterateScale(s, offset: offset, iterate: iterate - 1)
+  }
 }
 
 let triangle = polygon([(0, -50), (25, 0), (-25, 0)])
 
-let triangleRing = ring(radius: 220, number: 27, triangle)
-let diagram = iterateScale(0.618, offset: (15, 30), iterate: 7, triangleRing)
+let triangleRing = triangle.ring(radius: 220, number: 27)
+let diagram = triangleRing.iterateScale(0.618, offset: (15, 30), iterate: 7)
 
 showCoreGraphicsDiagram("Diagram", size: CGSize(width: 600, height: 500)) {
   drawDiagram(diagram)(context: $0)

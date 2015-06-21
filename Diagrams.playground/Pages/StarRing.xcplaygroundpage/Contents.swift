@@ -2,16 +2,19 @@
 
 import CoreGraphics
 
-func ring(radius radius: CGFloat, number: Int, _ diagram: Diagram) -> Diagram {
-  let angles = stride(from: 0.0, to: 360.0, by: 360.0/Double(number))
-  return diagrams(angles.map {
-    rotate(CGFloat($0), translate(x: 0, y: radius, diagram))
-  })
-}
-
-func iterateScale(s: CGFloat, iterate: Int, _ diagram: Diagram) -> Diagram {
-  if iterate == 0 { return diagram }
-  return iterateScale(s, iterate: iterate - 1, diagram + scale(s, diagram))
+extension Diagram {
+  func ring(radius radius: CGFloat, number: Int) -> Diagram {
+    let angles = stride(from: 0.0, to: 360.0, by: 360.0/Double(number))
+    return diagrams(angles.map {
+      translate(x: 0, y: radius).rotate(CGFloat($0))
+      }
+    )
+  }
+  
+  func iterateScale(s: CGFloat, iterate: Int) -> Diagram {
+    if iterate == 0 { return self }
+    return self + scale(s).iterateScale(s, iterate: iterate - 1)
+  }
 }
 
 let star = polygon(
@@ -19,8 +22,8 @@ let star = polygon(
    (-30, -30), (-20, 0), (-40, 20), (-10, 20), (0, 50)]
 )
 
-let starRing = ring(radius: 185, number: 16, star)
-let diagram = iterateScale(0.74, iterate: 6, starRing)
+let starRing = star.ring(radius: 185, number: 16)
+let diagram = starRing.iterateScale(0.74, iterate: 6)
 
 showCoreGraphicsDiagram("Diagram", size: CGSize(width: 600, height: 500)) {
   drawDiagram(diagram)(context: $0)
