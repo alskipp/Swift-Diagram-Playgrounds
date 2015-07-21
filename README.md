@@ -14,22 +14,20 @@ The playgrounds demonstrate two different approaches to creating `Diagram`s as v
 Apple’s version uses a variety of structs that conform to the `Drawable` protocol to represent different shapes. The alternative approach uses a recursive enum to achieve the same result. It looks like this:
 
 ```swift
-enum Diagram {
+public indirect enum Diagram {
   case Polygon(corners: [CGPoint])
   case Line(points: [CGPoint])
   case Arc(radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat)
   case Circle(radius: CGFloat)
-  case Scale(x: CGFloat, y: CGFloat, diagram: Box<Diagram>)
-  case Translate(x: CGFloat, y: CGFloat, diagram: Box<Diagram>)
-  case Rotate(angle: CGFloat, diagram: Box<Diagram>)
-  case Diagrams(diagrams: Box<[Diagram]>)
+  case Scale(x: CGFloat, y: CGFloat, diagram: Diagram)
+  case Translate(x: CGFloat, y: CGFloat, diagram: Diagram)
+  case Rotate(angle: CGFloat, diagram: Diagram)
+  case Diagrams([Diagram])
 }
 ```
 
-Recursive enums still require the use of `Box` in Swift 2.0, but Apple have indicated that they plan to fix this (hopefully soon).
-
 * * *
-**Note:** Playgrounds require Swift 2.0 (Xcode 7)
+**Note:** Playgrounds require **Xcode 7.0 beta 4**, or higher
 * * *
 
 ![screenshot](http://alskipp.github.io/Swift-Diagram-Playgrounds/img/screenshot1.png)
