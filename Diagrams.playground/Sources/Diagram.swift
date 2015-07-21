@@ -4,39 +4,34 @@ let toRadians = { $0 * CGFloat(M_PI / 180) }
 
 public typealias Point = (x: CGFloat, y: CGFloat)
 
-//: Currently required for recursive enums, but will be fixed soon!
-public class Box<T> {
-  public let unbox: T
-  init(_ value: T) { self.unbox = value }
-}
 //: A `Diagram` as a recursive enum
-public enum Diagram {
+public indirect enum Diagram {
   case Polygon(corners: [CGPoint])
   case Line(points: [CGPoint])
   case Arc(radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat)
   case Circle(radius: CGFloat)
-  case Scale(x: CGFloat, y: CGFloat, diagram: Box<Diagram>)
-  case Translate(x: CGFloat, y: CGFloat, diagram: Box<Diagram>)
-  case Rotate(angle: CGFloat, diagram: Box<Diagram>)
-  case Diagrams(diagrams: Box<[Diagram]>)
+  case Scale(x: CGFloat, y: CGFloat, diagram: Diagram)
+  case Translate(x: CGFloat, y: CGFloat, diagram: Diagram)
+  case Rotate(angle: CGFloat, diagram: Diagram)
+  case Diagrams([Diagram])
 }
 
-// convenience methods to handle boxing of `Diagram`s and allow chaining of transformations
+// convenience methods to allow chaining of transformations
 public extension Diagram {
   func scale(s: CGFloat) -> Diagram {
-    return .Scale(x: s, y: s, diagram: Box(self))
+    return .Scale(x: s, y: s, diagram: self)
   }
   
   func scale(x x: CGFloat, y: CGFloat) -> Diagram {
-    return .Scale(x: x, y: y, diagram: Box(self))
+    return .Scale(x: x, y: y, diagram: self)
   }
   
   func translate(x x: CGFloat, y: CGFloat) -> Diagram {
-    return .Translate(x: x, y: y, diagram: Box(self))
+    return .Translate(x: x, y: y, diagram: self)
   }
   
   func rotate(x: CGFloat) -> Diagram {
-    return .Rotate(angle: x, diagram: Box(self))
+    return .Rotate(angle: x, diagram: self)
   }
 }
 
@@ -65,7 +60,7 @@ public func circle(radius: CGFloat) -> Diagram {
 }
 
 public func diagrams(diagrams: [Diagram]) -> Diagram {
-  return .Diagrams(diagrams: Box(diagrams))
+  return .Diagrams(diagrams)
 }
 
 
@@ -85,16 +80,16 @@ public func == (lhs: Diagram, rhs: Diagram) -> Bool {
     return lRadius == rRadius
     
   case let (.Scale(lx, ly, lDiagram), .Scale(rx, ry, rDiagram)):
-    return lx == rx && ly == ry && lDiagram.unbox == rDiagram.unbox
+    return lx == rx && ly == ry && lDiagram == rDiagram
     
   case let (.Translate(lx, ly, lDiagram), .Translate(rx, ry, rDiagram)):
-    return lx == rx && ly == ry && lDiagram.unbox == rDiagram.unbox
+    return lx == rx && ly == ry && lDiagram == rDiagram
     
   case let (.Rotate(la, lDiagram), .Rotate(ra, rDiagram)):
-    return la == ra && lDiagram.unbox == rDiagram.unbox
+    return la == ra && lDiagram == rDiagram
     
   case let (.Diagrams(lDiagrams), .Diagrams(rDiagrams)):
-    let (l, r) = (lDiagrams.unbox, rDiagrams.unbox)
+    let (l, r) = (lDiagrams, rDiagrams)
     return l.count == r.count && !zip(l, r).contains { $0 != $1 }
     
   default: return false
@@ -125,21 +120,21 @@ public func drawDiagram(diagram: Diagram)(context: CGContext) -> () {
     
   case let .Scale(x, y, diagram):
     context.scale(x, y) {
-      drawDiagram(diagram.unbox)(context: $0)
+      drawDiagram(diagram)(context: $0)
     }
     
   case let .Translate(x, y, diagram):
     context.translate(x, y) {
-      drawDiagram(diagram.unbox)(context: $0)
+      drawDiagram(diagram)(context: $0)
     }
     
   case let .Rotate(angle, diagram):
     context.rotate(toRadians(angle)) {
-      drawDiagram(diagram.unbox)(context: $0)
+      drawDiagram(diagram)(context: $0)
     }
     
   case let .Diagrams(diagrams):
-    diagrams.unbox.map { d in drawDiagram(d)(context: context) }
+    diagrams.map { d in drawDiagram(d)(context: context) }
   }
 }
 
