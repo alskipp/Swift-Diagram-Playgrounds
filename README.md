@@ -27,7 +27,7 @@ public indirect enum Diagram {
 ```
 
 * * *
-**Note:** Playgrounds require **Xcode 7.0 beta 4**, or higher
+**Note:** Tested with **Xcode 7.0 beta 4**, (beta 6 doesn't currently work :( )
 * * *
 
 ![screenshot](http://alskipp.github.io/Swift-Diagram-Playgrounds/img/screenshot1.png)
