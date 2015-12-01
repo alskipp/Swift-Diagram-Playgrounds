@@ -177,4 +177,4 @@ let diagram = sample + .scale(x: 0.3, y: 0.3, diagram: sample) + makeBubble()
 
 // Show the diagram in the view. To see the result, View>Assistant
 // Editor>Show Assistant Editor (opt-cmd-Return).
-showCoreGraphicsDiagram("Diagram") { drawDiagram(diagram)(context: $0) }
+showCoreGraphicsDiagram { drawDiagram(diagram)(context: $0) }

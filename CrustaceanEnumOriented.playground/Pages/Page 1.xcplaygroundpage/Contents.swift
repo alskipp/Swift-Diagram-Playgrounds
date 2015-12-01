@@ -91,6 +91,6 @@ let diagram = shape + .scale(x: 0.3, y: 0.3, diagram: shape)
 
 // Show the diagram in the view. To see the result, View>Assistant
 // Editor>Show Assistant Editor (opt-cmd-Return).
-showCoreGraphicsDiagram("Diagram") { drawDiagram(diagram)(context: $0) }
+showCoreGraphicsDiagram { drawDiagram(diagram)(context: $0) }
 
 //: ## [Next](@next)
