@@ -6,7 +6,7 @@
 import CoreGraphics
 
 func displayDiagram(diagram: Diagram) {
-  showCoreGraphicsDiagram("Diagram", size: CGSize(width: 600, height: 600)) {
+  showCoreGraphicsDiagram(size: CGSize(width: 600, height: 600)) {
     drawDiagram(diagram)(context: $0)
   }
 }

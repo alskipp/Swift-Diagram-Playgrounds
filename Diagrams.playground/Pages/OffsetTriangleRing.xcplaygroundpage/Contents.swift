@@ -5,7 +5,7 @@ import CoreGraphics
 
 extension Diagram {
   func ring(radius radius: CGFloat, number: Int) -> Diagram {
-    let angles = stride(from: 0.0, to: 360.0, by: 360.0/Double(number))
+    let angles = 0.0.stride(to: 360.0, by: 360.0/Double(number))
     return diagrams(angles.map {
       self.translate(x: 0, y: radius).rotate(CGFloat($0))
       }
@@ -25,7 +25,7 @@ let triangle = polygon([(0, -50), (25, 0), (-25, 0)])
 let triangleRing = triangle.ring(radius: 220, number: 27)
 let diagram = triangleRing.iterateScale(0.618, offset: (15, 30), iterate: 7)
 
-showCoreGraphicsDiagram("Diagram", size: CGSize(width: 600, height: 500)) {
+showCoreGraphicsDiagram(size: CGSize(width: 600, height: 500)) {
   drawDiagram(diagram)(context: $0)
 }
 /*:

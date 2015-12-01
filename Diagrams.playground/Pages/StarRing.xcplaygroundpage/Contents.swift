@@ -4,7 +4,7 @@ import CoreGraphics
 
 extension Diagram {
   func ring(radius radius: CGFloat, number: Int) -> Diagram {
-    let angles = stride(from: 0.0, to: 360.0, by: 360.0/Double(number))
+    let angles = 0.0.stride(to: 360.0, by: 360.0/Double(number))
     return diagrams(angles.map {
       translate(x: 0, y: radius).rotate(CGFloat($0))
       }
@@ -25,7 +25,7 @@ let star = polygon(
 let starRing = star.ring(radius: 185, number: 16)
 let diagram = starRing.iterateScale(0.74, iterate: 6)
 
-showCoreGraphicsDiagram("Diagram", size: CGSize(width: 600, height: 500)) {
+showCoreGraphicsDiagram(size: CGSize(width: 600, height: 500)) {
   drawDiagram(diagram)(context: $0)
 }
 /*:
