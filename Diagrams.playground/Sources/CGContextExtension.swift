@@ -8,12 +8,12 @@ public extension CGContext {
     CGContextAddLineToPoint(self, position.x, position.y)
   }
   func drawPath(points: [CGPoint]) {
-    points.first.map(moveTo)
-    points.map(lineTo)
+    if let p = points.first { moveTo(p) }
+    points.forEach(lineTo)
   }
   func drawPolygon(points: [CGPoint]) {
-    points.last.map(moveTo)
-    points.map(lineTo)
+    if let p = points.last { moveTo(p) }
+    points.forEach(lineTo)
   }
   func arc(radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat) {
     let arc = CGPathCreateMutable()

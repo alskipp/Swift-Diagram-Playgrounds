@@ -134,7 +134,7 @@ public func drawDiagram(diagram: Diagram)(context: CGContext) -> () {
     }
     
   case let .Diagrams(diagrams):
-    diagrams.map { d in drawDiagram(d)(context: context) }
+    diagrams.forEach { d in drawDiagram(d)(context: context) }
   }
 }
 
