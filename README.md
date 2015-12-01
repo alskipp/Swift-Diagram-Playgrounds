@@ -27,7 +27,7 @@ public indirect enum Diagram {
 ```
 
 * * *
-**Note:** Tested with **Xcode 7.0 beta 4**, (beta 6 doesn't currently work :( )
+**Note:** `livePreview` will merrily consume processing power to continuously redraw still images, therefore it's recommended to manually stop execution of the Playground after the images have rendered.
 * * *
 
 ![screenshot](http://alskipp.github.io/Swift-Diagram-Playgrounds/img/screenshot1.png)
