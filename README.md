@@ -1,9 +1,11 @@
 Swift-Diagram-Playgrounds
 ========
 
+[![Swift 3.0](https://img.shields.io/badge/Swift-3.0-orange.svg?style=flat)](https://developer.apple.com/swift/)
+
 This is an adaption of Apple’s sample code for the [Protocol-Oriented Programming in Swift](https://developer.apple.com/videos/wwdc/2015/?id=408) talk given during WWDC 2015.
 
-Included is Apple’s original example playground file `Crustacean.playground` that uses a `Protocol-oriented` design. In addition there's an alternative version `CrustaceanEnumOriented.playground` that uses a recursive enum as the data structure.
+Included is Apple’s original example playground file `Crustacean.playground` that uses a `Protocol-oriented` design (updated for Swift 3). In addition there's an alternative version `CrustaceanEnumOriented.playground` that uses a recursive enum as the data structure.
 
 Finally there's the `Diagrams.playground` which adds a bit more functionality and includes several pages of example diagrams.
 
@@ -14,14 +16,14 @@ The playgrounds demonstrate two different approaches to creating `Diagram`s as v
 Apple’s version uses a variety of structs that conform to the `Drawable` protocol to represent different shapes. The alternative approach uses a recursive enum to achieve the same result. It looks like this:
 
 ```swift
-public indirect enum Diagram {
-  case Polygon(corners: [CGPoint])
-  case Line(points: [CGPoint])
+public enum Diagram {
+  case Polygon([CGPoint])
+  case Line([CGPoint])
   case Arc(radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat)
   case Circle(radius: CGFloat)
-  case Scale(x: CGFloat, y: CGFloat, diagram: Diagram)
-  case Translate(x: CGFloat, y: CGFloat, diagram: Diagram)
-  case Rotate(angle: CGFloat, diagram: Diagram)
+  indirect case Scale(x: CGFloat, y: CGFloat, diagram: Diagram)
+  indirect case Translate(x: CGFloat, y: CGFloat, diagram: Diagram)
+  indirect case Rotate(angle: CGFloat, diagram: Diagram)
   case Diagrams([Diagram])
 }
 ```
