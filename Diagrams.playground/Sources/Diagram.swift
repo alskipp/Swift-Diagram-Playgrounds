@@ -5,32 +5,32 @@ let toRadians = { $0 * CGFloat(M_PI / 180) }
 public typealias Point = (x: CGFloat, y: CGFloat)
 
 //: A `Diagram` as a recursive enum
-public indirect enum Diagram {
-  case Polygon(corners: [CGPoint])
-  case Line(points: [CGPoint])
+public enum Diagram {
+  case Polygon([CGPoint])
+  case Line([CGPoint])
   case Arc(radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat)
   case Circle(radius: CGFloat)
-  case Scale(x: CGFloat, y: CGFloat, diagram: Diagram)
-  case Translate(x: CGFloat, y: CGFloat, diagram: Diagram)
-  case Rotate(angle: CGFloat, diagram: Diagram)
+  indirect case Scale(x: CGFloat, y: CGFloat, diagram: Diagram)
+  indirect case Translate(x: CGFloat, y: CGFloat, diagram: Diagram)
+  indirect case Rotate(angle: CGFloat, diagram: Diagram)
   case Diagrams([Diagram])
 }
 
 // convenience methods to allow chaining of transformations
 public extension Diagram {
-  func scale(s: CGFloat) -> Diagram {
+  func scale(_ s: CGFloat) -> Diagram {
     return .Scale(x: s, y: s, diagram: self)
   }
   
-  func scale(x x: CGFloat, y: CGFloat) -> Diagram {
+  func scale(x: CGFloat, y: CGFloat) -> Diagram {
     return .Scale(x: x, y: y, diagram: self)
   }
   
-  func translate(x x: CGFloat, y: CGFloat) -> Diagram {
+  func translate(x: CGFloat, y: CGFloat) -> Diagram {
     return .Translate(x: x, y: y, diagram: self)
   }
   
-  func rotate(x: CGFloat) -> Diagram {
+  func rotate(_ x: CGFloat) -> Diagram {
     return .Rotate(angle: x, diagram: self)
   }
 }
@@ -38,28 +38,28 @@ public extension Diagram {
 // convenience functions to handle conversion from `Point` to `CGPoint`
 // (defining an Array of `CGpoint`s is really verbose – hence the use of the `tuple` typealias `Point`)
 public func line(ps: [Point]) -> Diagram {
-  return .Line(points: ps.map { x, y in CGPoint(x: x, y: y) })
+  return .Line(ps.map { x, y in CGPoint(x: x, y: y) })
 }
 
-public func polygon(ps: [Point]) -> Diagram {
-  return .Polygon(corners: ps.map { x, y in CGPoint(x: x, y: y) })
+public func polygon(_ ps: [Point]) -> Diagram {
+  return .Polygon(ps.map { x, y in CGPoint(x: x, y: y) })
 }
 
-public func rectanglePath(width: CGFloat, _ height: CGFloat) -> [Point] {
+public func rectanglePath(width: CGFloat, height: CGFloat) -> [Point] {
   let sx = width / 2
   let sy = height / 2
   return [(-sx, -sy), (-sx, sy), (sx, sy), (sx, -sy)]
 }
 
 public func rectangle(x: CGFloat, _ y: CGFloat) -> Diagram {
-  return polygon(rectanglePath(x, y))
+  return polygon(rectanglePath(width: x, height: y))
 }
 
-public func circle(radius: CGFloat) -> Diagram {
+public func circle(_ radius: CGFloat) -> Diagram {
   return .Circle(radius: radius)
 }
 
-public func diagrams(diagrams: [Diagram]) -> Diagram {
+public func diagrams(_ diagrams: [Diagram]) -> Diagram {
   return .Diagrams(diagrams)
 }
 
@@ -97,14 +97,14 @@ public func == (lhs: Diagram, rhs: Diagram) -> Bool {
 }
 
 //: Infix operator for combining Diagrams
-public func + (d1:Diagram, d2:Diagram) -> Diagram {
+public func + (d1: Diagram, d2: Diagram) -> Diagram {
   return diagrams([d1, d2])
 }
 
 //: ## Do some drawing!
 //:
 //: A recursive function responsible for drawing a diagram into a CGContext
-public func drawDiagram(diagram: Diagram)(context: CGContext) -> () {
+public func drawDiagram(_ diagram: Diagram, context: CGContext) -> () {
   switch diagram {
   case let .Polygon(corners):
     context.drawPolygon(corners)
@@ -113,28 +113,27 @@ public func drawDiagram(diagram: Diagram)(context: CGContext) -> () {
     context.drawPath(points)
  
   case let .Arc(r, a1, a2):
-    context.arc(r, startAngle: toRadians(a1), endAngle: toRadians(a2))
+    context.arc(radius: r, startAngle: toRadians(a1), endAngle: toRadians(a2))
     
   case let .Circle(radius):
-    context.circle(radius)
-    
+    context.circle(radius: radius)
+
   case let .Scale(x, y, diagram):
-    context.scale(x, y) {
-      drawDiagram(diagram)(context: $0)
+    context.scale(x: x, y: y) {
+      drawDiagram(diagram, context: $0)
     }
     
   case let .Translate(x, y, diagram):
-    context.translate(x, y) {
-      drawDiagram(diagram)(context: $0)
+    context.translate(x: x, y: y) {
+      drawDiagram(diagram, context: $0)
     }
     
   case let .Rotate(angle, diagram):
-    context.rotate(toRadians(angle)) {
-      drawDiagram(diagram)(context: $0)
+    context.rotate(angle: toRadians(angle)) {
+      drawDiagram(diagram, context: $0)
     }
     
   case let .Diagrams(diagrams):
-    diagrams.forEach { d in drawDiagram(d)(context: context) }
+    diagrams.forEach { d in drawDiagram(d, context: context) }
   }
 }
-

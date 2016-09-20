@@ -3,16 +3,8 @@
 
 ## The Larch
 */
-import CoreGraphics
-
-func displayDiagram(diagram: Diagram) {
-  showCoreGraphicsDiagram(size: CGSize(width: 600, height: 600)) {
-    drawDiagram(diagram)(context: $0)
-  }
-}
-
 extension Diagram {
-  func tree(n: Int) -> Diagram {
+  func tree(_ n: Int) -> Diagram {
     if n == 0 { return self }
     
     let smallTree = tree(n - 1).scale(x: 0.33, y: 0.45)

@@ -1,48 +1,46 @@
 import CoreGraphics
 
 public extension CGContext {
-  func moveTo(position: CGPoint) {
-    CGContextMoveToPoint(self, position.x, position.y)
+  func drawPath(_ points: [CGPoint]) {
+    if let p = points.first {
+      move(to: p)
+      points.forEach { addLine(to: $0) }
+    }
   }
-  func lineTo(position: CGPoint) {
-    CGContextAddLineToPoint(self, position.x, position.y)
-  }
-  func drawPath(points: [CGPoint]) {
-    if let p = points.first { moveTo(p) }
-    points.forEach(lineTo)
-  }
-  func drawPolygon(points: [CGPoint]) {
-    if let p = points.last { moveTo(p) }
-    points.forEach(lineTo)
+  func drawPolygon(_ points: [CGPoint]) {
+    if let p = points.last {
+      move(to: p)
+      points.forEach { addLine(to: $0) }
+    }
   }
   func arc(radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat) {
-    let arc = CGPathCreateMutable()
-    CGPathAddArc(arc, nil, 0, 0, radius, startAngle, endAngle, false)
-    CGContextAddPath(self, arc)
+    let arc = CGMutablePath()
+    arc.addArc(center: .zero, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
+    addPath(arc)
   }
   func circle(radius: CGFloat) {
-    arc(radius, startAngle: 0.0, endAngle: twoPi)
+    arc(radius: radius, startAngle: 0.0, endAngle: twoPi)
   }
   func saveContext(operation: () -> ()) {
-    CGContextSaveGState(self)
+    saveGState()
     operation()
-    CGContextRestoreGState(self)
+    restoreGState()
   }
-  func scale(x: CGFloat, _ y: CGFloat, operation: CGContext -> ()) {
+  func scale(x: CGFloat, y: CGFloat, operation: (CGContext) -> ()) {
     saveContext {
-      CGContextScaleCTM(self, x, y)
+      scaleBy(x: x, y: y)
       operation(self)
     }
   }
-  func translate(x: CGFloat, _ y: CGFloat, operation: CGContext -> ()) {
+  func translate(x: CGFloat, y: CGFloat, operation: (CGContext) -> ()) {
     saveContext {
-      CGContextTranslateCTM(self, x, y)
+      translateBy(x: x, y: y)
       operation(self)
     }
   }
-  func rotate(angle: CGFloat, operation: CGContext -> ()) {
+  func rotate(angle: CGFloat, operation: (CGContext) -> ()) {
     saveContext {
-      CGContextRotateCTM(self, angle)
+      rotate(by: angle)
       operation(self)
     }
   }

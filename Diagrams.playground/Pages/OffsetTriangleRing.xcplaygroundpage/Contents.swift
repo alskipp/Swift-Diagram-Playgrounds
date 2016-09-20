@@ -4,15 +4,15 @@
 import CoreGraphics
 
 extension Diagram {
-  func ring(radius radius: CGFloat, number: Int) -> Diagram {
-    let angles = 0.0.stride(to: 360.0, by: 360.0/Double(number))
+  func ring(radius: CGFloat, number: Int) -> Diagram {
+    let angles = stride(from: 0.0, to: 360.0, by: 360.0/Double(number))
     return diagrams(angles.map {
-      self.translate(x: 0, y: radius).rotate(CGFloat($0))
+      translate(x: 0, y: radius).rotate(CGFloat($0))
       }
     )
   }
   
-  func iterateScale(s: CGFloat, offset: Point = (0,0), iterate: Int) -> Diagram {
+  func iterateScale(_ s: CGFloat, offset: Point = (0,0), iterate: Int) -> Diagram {
     if iterate == 0 { return self }
     return self + scale(s)
       .translate(x: offset.x, y: offset.y)
@@ -26,7 +26,7 @@ let triangleRing = triangle.ring(radius: 220, number: 27)
 let diagram = triangleRing.iterateScale(0.618, offset: (15, 30), iterate: 7)
 
 showCoreGraphicsDiagram(size: CGSize(width: 600, height: 500)) {
-  drawDiagram(diagram)(context: $0)
+  drawDiagram(diagram, context: $0)
 }
 /*:
 To see the result, View>Assistant Editor>Show Assistant Editor (opt-cmd-Return).
