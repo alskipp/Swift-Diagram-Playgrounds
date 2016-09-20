@@ -13,6 +13,10 @@ The playgrounds demonstrate two different approaches to creating `Diagram`s as v
 
 * * *
 
+![screenshot](http://alskipp.github.io/Swift-Diagram-Playgrounds/img/screenshot1.png)
+
+* * *
+
 Apple’s version uses a variety of structs that conform to the `Drawable` protocol to represent different shapes. The alternative approach uses a recursive enum to achieve the same result. It looks like this:
 
 ```swift
@@ -31,8 +35,6 @@ public enum Diagram {
 * * *
 **Note:** `livePreview` will merrily consume processing power to continuously redraw still images, therefore it's recommended to manually stop execution of the Playground after the images have rendered.
 * * *
-
-![screenshot](http://alskipp.github.io/Swift-Diagram-Playgrounds/img/screenshot1.png)
 
 ### Protocol-Oriented or Enum-Oriented – which is better?
 
